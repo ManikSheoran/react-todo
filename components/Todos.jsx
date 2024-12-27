@@ -8,22 +8,22 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import AddTodo from "./AddTodo";
-
+import Footer from "./Footer";
 
 const initialTodos = () => {
-  const data = JSON.parse(localStorage.getItem('todos'));
-  if (!data){
-    return []
+  const data = JSON.parse(localStorage.getItem("todos"));
+  if (!data) {
+    return [];
   }
   return data;
-}
+};
 
 export default function Todos() {
   const [todos, setTodos] = React.useState(initialTodos);
 
   React.useEffect(() => {
-    localStorage.setItem('todos', JSON.stringify(todos));
-  }, [todos])
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   const removeTodo = (id) => {
     setTodos((prevTodos) => prevTodos.filter((t) => t.id !== id));
@@ -84,6 +84,7 @@ export default function Todos() {
         )}
       </List>
       <AddTodo addTodo={addTodo} />
+      <Footer />
     </>
   );
 }
