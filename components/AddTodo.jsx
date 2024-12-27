@@ -6,8 +6,8 @@ import { v4 as uuid } from "uuid";
 export default function AddTodo({ addTodo }) {
   const [text, setText] = useState("");
 
-  const handleChange = (evt) => {
-    setText(evt.target.value);
+  const handleChange = (event) => {
+    setText(event.target.value);
   };
 
   const handleAddTodo = () => {
@@ -27,7 +27,7 @@ export default function AddTodo({ addTodo }) {
         value={text}
         sx={{ marginRight: 2 }}
       />
-      <Button variant="outlined" onClick={handleAddTodo}>
+      <Button variant="contained" onClick={handleAddTodo}>
         Add
       </Button>
     </ListItem>

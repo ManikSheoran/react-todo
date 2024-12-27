@@ -19,58 +19,64 @@ export default function Todos() {
   const [todos, setTodos] = React.useState(initialTodos);
 
   const removeTodo = (id) => {
-    setTodos((prevTodos) => {
-      return prevTodos.filter((t) => t.id !== id);
-    });
+    setTodos((prevTodos) => prevTodos.filter((t) => t.id !== id));
   };
 
   const handleToggle = (id) => {
-    setTodos((prevTodos) => {
-      return prevTodos.map((todo) => {
-        if (todo.id === id) {
-          return { ...todo, completed: !todo.completed };
-        } else {
-          return todo;
-        }
-      });
-    });
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
+  };
+
+  const addTodo = (newTodo) => {
+    setTodos((prevTodos) => [...prevTodos, newTodo]);
   };
 
   return (
-    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-      {todos.map((item) => {
-        const labelId = `checkbox-list-label-${item.id}`;
-        return (
-          <ListItem
-            key={item.id}
-            secondaryAction={
-              <IconButton
-                edge="end"
-                aria-label="comments"
-                onClick={() => removeTodo(item.id)}
+    <>
+      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+        {todos.length > 0 ? (
+          todos.map((item) => {
+            const labelId = `checkbox-list-label-${item.id}`;
+            return (
+              <ListItem
+                key={item.id}
+                secondaryAction={
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={() => removeTodo(item.id)}
+                  >
+                    <CancelOutlinedIcon />
+                  </IconButton>
+                }
+                disablePadding
               >
-                <CancelOutlinedIcon />
-              </IconButton>
-            }
-            disablePadding
-          >
-            <ListItemButton role={undefined} dense>
-              <ListItemIcon>
-                <Checkbox
-                  edge="start"
-                  checked={item.completed}
-                  tabIndex={-1}
-                  disableRipple
-                  inputProps={{ "aria-labelledby": labelId }}
-                  onChange={() => handleToggle(item.id)}
-                />
-              </ListItemIcon>
-              <ListItemText id={labelId} primary={item.text} />
-            </ListItemButton>
+                <ListItemButton role={undefined} dense>
+                  <ListItemIcon>
+                    <Checkbox
+                      edge="start"
+                      checked={item.completed}
+                      tabIndex={-1}
+                      disableRipple
+                      inputProps={{ "aria-labelledby": labelId }}
+                      onChange={() => handleToggle(item.id)}
+                    />
+                  </ListItemIcon>
+                  <ListItemText id={labelId} primary={item.text} />
+                </ListItemButton>
+              </ListItem>
+            );
+          })
+        ) : (
+          <ListItem>
+            <ListItemText primary="No tasks available. Add a new one!" />
           </ListItem>
-        );
-      })}
-      <AddTodo />
-    </List>
+        )}
+      </List>
+      <AddTodo addTodo={addTodo} />
+    </>
   );
 }
