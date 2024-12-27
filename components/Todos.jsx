@@ -9,14 +9,21 @@ import IconButton from "@mui/material/IconButton";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import AddTodo from "./AddTodo";
 
-const initialTodos = [
-  { id: 1, text: "Read Newspaper", completed: true },
-  { id: 2, text: "Complete ML - 1 video", completed: false },
-  { id: 3, text: "Walk 10000 steps", completed: false },
-];
+
+const initialTodos = () => {
+  const data = JSON.parse(localStorage.getItem('todos'));
+  if (!data){
+    return []
+  }
+  return data;
+}
 
 export default function Todos() {
   const [todos, setTodos] = React.useState(initialTodos);
+
+  React.useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos])
 
   const removeTodo = (id) => {
     setTodos((prevTodos) => prevTodos.filter((t) => t.id !== id));
